@@ -3,11 +3,26 @@ from bird import Bird
 import window
 
 
+
+
 def game_over():
-    print('Ooops')
+    global game_is_running
+
+    if not game_is_running:
+        return 0
+
+    game_is_running = False
+    bird.v = 0
+
+    level.game_stoped()
+
+    canv.itemconfig(bgnd, fill='#ffa0a0', outline='#ffa0a0')
+    bird.col = '#670003'
+
 
 def up(event):
-    bird.v = bird.v0
+    if game_is_running:
+        bird.v = bird.v0
 
 def next_level(first=False):
     global level
@@ -23,6 +38,9 @@ def next_level(first=False):
     root.after(int(1000), run_level, 1)
 
 def run_level(period):
+    if not game_is_running:
+        return 0
+
     flag = level.next_obstacle()
 
     if flag is None:
@@ -37,12 +55,13 @@ def show_window():
         Width, Height
     )
 
-    t = (Width - bird.x) / abs(level.obstacle_v(win_id)) / level.dt * fps
-    root.after(int(1000 * t), next_level)
+    if game_is_running:
+        t = (Width - bird.x) / abs(level.obstacle_v(win_id)) / level.dt * fps
+        root.after(int(1000 * t), next_level)
 
 
 def main():
-    global root, Width, Height, text_size, canv, fps, bird
+    global root, Width, Height, text_size, canv, fps, bird, game_is_running, bgnd
 
     root = Tk()
 
@@ -54,6 +73,9 @@ def main():
     canv.pack(fill=BOTH,expand=1)
 
     fps = 1 / 60
+    game_is_running = True
+
+    bgnd = canv.create_rectangle(0, 0, Width, Height, fill='white', outline='white')
 
 
     bird = Bird(canv, root, fps, Height, game_over)

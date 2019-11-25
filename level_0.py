@@ -21,8 +21,12 @@ class Level:
 
         self.obst_number = 10
 
+        self.game_is_running = True
+
     def obstacle_v(self, obstacle):
-        return -3
+        if self.game_is_running:
+            return -3
+        return 0
 
     def obstacle_size(self, obstacle):
         return 60
@@ -50,7 +54,8 @@ class Level:
         else:
             return None
 
-
+    def game_stoped(self):
+        self.game_is_running = False
 
 #     def run(self):
 #         global flag

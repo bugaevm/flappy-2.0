@@ -49,7 +49,8 @@ class Bird:
         self.root.after(int(1000 * self.fps), self.move)
 
     def check_falling(self):
-        if self.y + self.size / 2 >= self.h:
+        if self.y >= self.h - self.size / 2:
+            self.y = self.h - self.size / 2
             self.interrupting()
 
 

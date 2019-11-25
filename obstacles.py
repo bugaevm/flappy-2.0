@@ -84,9 +84,36 @@ class Obstacle:
         self.condition = 'bumped'
         bird.interrupting()
 
+        self.check_falling_on_obstacle()
+
+    def check_falling_on_obstacle(self):
+        bird = self.bird
+        bird_bottom = bird.y + bird.size / 2
+        bottom = self.hole.bottom
+
+        if bird.x < self.x and bird.x + bird.size / 2 >= self.x:
+            move_obstacles(1)
+        if bird.x > self.x + self.size and bird.x - bird.size / 2 <= self.x + self.size:
+            move_obstacles(-1)
+
+        if bird_bottom < bottom:
+            return 0
+
+        if self.x <= bird.x <= self.x + self.size:
+            self.bird.v = 0
+            self.bird.y = bottom - bird.size / 2
+            return 0
+
+
+
     def delete(self):
         global obstacles_set
 
         for item in self.objects:
             self.canvas.delete(item)
         obstacles_set -= {self}
+
+
+def move_obstacles(r):
+    for obst in obstacles_set:
+        obst.x += r

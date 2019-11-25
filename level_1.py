@@ -19,7 +19,11 @@ class Level:
         self.dt = 0.3
         bird.dt = self.dt
 
+        self.game_is_running = True
+
     def obstacle_v(self, obstacle):
+        if self.game_is_running:
+            return -3
         return -3
 
     def obstacle_size(self, obstacle):
@@ -42,6 +46,9 @@ class Level:
         )
 
         return 1.5 / self.dt
+
+    def game_stoped(self):
+        self.game_is_running = False
 
 #     def run(self):
 #         global flag
