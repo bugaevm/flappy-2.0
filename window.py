@@ -1,3 +1,5 @@
+import math
+
 class Window:
     def __init__(self, canvas, root, fps, level, Width, Height):
         self.level = level
@@ -39,9 +41,18 @@ class Window:
 
 
     def update(self):
+        Width = self.right
+        Height = self.bottom
+
         self.x += self.level.obstacle_v(self) * self.level.dt
 
-        self.hole_top = self.bottom * self.x / self.right
+        if self.x > Width / 2:
+            self.hole_top = Height // 2 - 1
+        else:
+            self.hole_top = (Height // 2 - 1) * (1 - math.cos(math.pi * self.x / Width))
+            self.hole_top = max(self.hole_top, 20)
+
+
         self.hole_bottom = self.bottom - self.hole_top
 
         if self.x >= -2 * self.size:
