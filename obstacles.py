@@ -25,8 +25,8 @@ class Obstacle:
 
         obstacles_set.add(self)
 
-        self.update()
-        self.draw()
+        root.after(int(1000 * self.fps), self.update)
+        root.after(int(1000 * self.fps), self.draw)
 
     def draw(self):
         for item in self.objects:
