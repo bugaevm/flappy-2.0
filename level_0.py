@@ -1,4 +1,6 @@
+import random
 import obstacles, window
+
 
 class Hole:
     def __init__(self, top, bottom):
@@ -19,7 +21,7 @@ class Level:
         self.dt = 1
         bird.dt = self.dt
 
-        self.obst_number = 10
+        self.obst_number = 25
 
         self.game_is_running = True
 
@@ -35,11 +37,10 @@ class Level:
         return '#777777'
 
     def update_hole(self, obstacle):
+        hole_size = 300
+        t = random.randint(self.bird.size // 2, self.Height - hole_size - self.bird.size // 2)
         if obstacle.hole is None:
-            obstacle.hole = Hole(
-                self.Height / 2 - self.bird.size * 4,
-                self.Height / 2 + self.bird.size * 4
-            )
+            obstacle.hole = Hole(t, t + hole_size)
 
     def next_obstacle(self):
         obstacles.Obstacle(
