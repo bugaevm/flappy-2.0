@@ -1,4 +1,4 @@
-import random
+import random, math
 import obstacles, window
 
 
@@ -9,7 +9,7 @@ class Hole:
 
 class Level:
     def __init__(self, canvas, root, fps, bird, Width, Height):
-        self.number = 1
+        self.number = 2
 
         self.canvas = canvas
         self.root = root
@@ -21,7 +21,7 @@ class Level:
         self.dt = 1
         bird.dt = self.dt
 
-        self.obst_number = 40
+        self.obst_number = 50
 
         self.game_is_running = True
 
@@ -37,13 +37,14 @@ class Level:
         return '#777777'
 
     def update_hole(self, obstacle):
-        num = obstacle.num
-        min_size = self.bird.size * 4
+        obstacle.p += obstacle.w * self.dt
+        centre = self.Height // 2
+        ampl = centre - self.bird.size // 2 - obstacle.hole_size // 2
 
-        hole_size = int(min_size + (275 - min_size) / (41 - num) ** (1 / 3) + 0.5)
-        t = random.randint(self.bird.size // 2, self.Height - hole_size - self.bird.size // 2)
-        if obstacle.hole is None:
-            obstacle.hole = Hole(t, t + hole_size)
+        t = centre + ampl * math.sin(obstacle.p)
+
+        # if obstacle.hole is None:
+        obstacle.hole = Hole(t - obstacle.hole_size / 2, t + obstacle.hole_size / 2)
 
     def next_obstacle(self):
         obst = obstacles.Obstacle(
@@ -51,6 +52,15 @@ class Level:
             self.Width, self.Height
         )
         obst.num = self.obst_number
+        obst.hole_size = self.bird.size * 10
+
+        obst.w = (
+            (min(59 - obst.num, 38) - 1) / 100
+        ) ** 4 * (-1) ** random.choice(range(2))
+
+        obst.p = random.choice(range(
+            -self.Height, self.Height
+        )) / self.Height * math.pi
 
 
 
