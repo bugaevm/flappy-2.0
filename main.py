@@ -34,6 +34,7 @@ def next_level(first=False):
 
     exec(f'global Level; from level_{number} import Level')
     level = Level(canv, root, fps, bird, Width, Height)
+    display_level(number)
 
     root.after(int(1000), run_level, 1)
 
@@ -49,6 +50,11 @@ def run_level(period):
     else:
         root.after(int(1000 * flag), run_level, flag)
 
+def display_level(n):
+    messg="LEVEL: "+str(n)
+    levelbar=canv.create_rectangle(0,Height,Width,Height+3*text_size,fill="black",outline="black")
+    levelabel=canv.create_text(text_size*len(messg)/2,Height+1.5*text_size,fill="yellow",text=messg,font=str(text_size))
+        
 def show_window():
     win_id = window.Window(
         canv, root, fps, level,
@@ -77,8 +83,8 @@ def main():
 
     bgnd = canv.create_rectangle(0, 0, Width, Height, fill='white', outline='white')
 
-    level=Label(root, textvariable="level#", height=50, width=Width)
-    level.pack(side=BOTTOM)
+    levelbar=canv.create_rectangle(0,Height,Width,Height+3*text_size,fill="black",outline="black")
+    levelabel=canv.create_text(text_size*len("LEVEL: ")/2,Height+1.5*text_size,fill="yellow",text="LEVEL: ",font=str(text_size))
 
 
     bird = Bird(canv, root, fps, Height, game_over)
