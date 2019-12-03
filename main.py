@@ -51,10 +51,17 @@ def run_level(period):
         root.after(int(1000 * flag), run_level, flag)
 
 def display_level(n):
-    messg="LEVEL: "+str(n)
-    levelbar=canv.create_rectangle(0,Height,Width,Height+3*text_size,fill="black",outline="black")
-    levelabel=canv.create_text(text_size*len(messg)/2,Height+1.5*text_size,fill="yellow",text=messg,font=str(text_size))
-        
+    messg = 'LEVEL: ' + str(n)
+
+    levelbar = canv.create_rectangle(
+        0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
+    )
+
+    levelabel = canv.create_text(
+        text_size * len(messg) / 2, Height + 1.5 * text_size,
+        fill="black", text=messg, font=str(text_size)
+    )
+
 def show_window():
     win_id = window.Window(
         canv, root, fps, level,
