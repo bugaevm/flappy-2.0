@@ -77,6 +77,9 @@ def main():
 
     bgnd = canv.create_rectangle(0, 0, Width, Height, fill='white', outline='white')
 
+    level=Label(root, textvariable="level#", height=50, width=Width)
+    level.pack(side=BOTTOM)
+
 
     bird = Bird(canv, root, fps, Height, game_over)
 
