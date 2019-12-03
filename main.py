@@ -58,7 +58,7 @@ def display_level(n):
     )
 
     levelabel = canv.create_text(
-        text_size * len(messg) / 2, Height + 1.5 * text_size,
+        text_size *(1 + len(messg) / 2), Height + 1.5 * text_size,
         fill="black", text=messg, font=str(text_size)
     )
 
@@ -89,6 +89,7 @@ def main():
     game_is_running = True
 
     bgnd = canv.create_rectangle(0, 0, Width, Height, fill='white', outline='white')
+
 
     bird = Bird(canv, root, fps, Height, game_over)
 
