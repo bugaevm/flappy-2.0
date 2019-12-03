@@ -19,6 +19,28 @@ def game_over():
     canv.itemconfig(bgnd, fill='#ffa0a0', outline='#ffa0a0')
     bird.col = '#670003'
 
+    messg="Press q to exit, r to restart"
+
+    canv.create_rectangle(
+        0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
+    )
+
+    canv.create_text(
+        text_size * (1 + len(messg) / 2), Height + 1.5 * text_size,
+        fill="black", text=messg, font=str(text_size)
+    )
+
+    root.bind("q",die)
+    root.bind("r",restart)
+
+def die(Event):
+    if Event:
+        exit(0)
+
+def restart(Event):
+    if Event:
+        pass
+        
 
 def up(event):
     if game_is_running:
@@ -58,7 +80,7 @@ def display_level(n):
     )
 
     levelabel = canv.create_text(
-        text_size *(1 + len(messg) / 2), Height + 1.5 * text_size,
+        text_size * (1 + len(messg) / 2), Height + 1.5 * text_size,
         fill="black", text=messg, font=str(text_size)
     )
 
@@ -89,6 +111,7 @@ def main():
     game_is_running = True
 
     bgnd = canv.create_rectangle(0, 0, Width, Height, fill='white', outline='white')
+
 
 
     bird = Bird(canv, root, fps, Height, game_over)
