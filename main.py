@@ -90,10 +90,6 @@ def main():
 
     bgnd = canv.create_rectangle(0, 0, Width, Height, fill='white', outline='white')
 
-    levelbar=canv.create_rectangle(0,Height,Width,Height+3*text_size,fill="black",outline="black")
-    levelabel=canv.create_text(text_size*len("LEVEL: ")/2,Height+1.5*text_size,fill="yellow",text="LEVEL: ",font=str(text_size))
-
-
     bird = Bird(canv, root, fps, Height, game_over)
 
 
