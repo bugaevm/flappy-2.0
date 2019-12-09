@@ -89,20 +89,35 @@ class Obstacle:
     def check_falling_on_obstacle(self):
         bird = self.bird
         bird_bottom = bird.y + bird.size / 2
+        bird_top = bird.y - bird.size / 2
+
         bottom = self.hole.bottom
+        top = self.hole.top
+
+        if top <= bird.y <= bottom:
+            if self.x <= bird.x <= self.x + self.size and bird_bottom >= bottom:
+                self.bird.v = 0
+                self.bird.y = bottom - bird.size / 2
+                return 0
+
+            elif self.x <= bird.x <= self.x + self.size and bird_top <= top:
+                self.bird.v = abs(self.bird.v)
+                self.bird.y = top + bird.size / 2
+                return 0
+
 
         if bird.x < self.x and bird.x + bird.size / 2 >= self.x:
-            move_obstacles(1)
+            move_obstacles(max(1, (bird.x + bird.size / 2 - self.x) / 3))
         if bird.x > self.x + self.size and bird.x - bird.size / 2 <= self.x + self.size:
-            move_obstacles(-1)
+            move_obstacles(min(-1, (bird.x - bird.size / 2 <= self.x + self.size) / 3))
 
-        if bird_bottom < bottom:
-            return 0
-
-        if self.x <= bird.x <= self.x + self.size:
-            self.bird.v = 0
-            self.bird.y = bottom - bird.size / 2
-            return 0
+        # if bird_bottom < bottom:
+        #     return 0
+        #
+        # if self.x <= bird.x <= self.x + self.size and bird.y > bottom:
+        #     self.bird.v = 0
+        #     self.bird.y = bottom - bird.size / 2
+        #     return 0
 
 
 
