@@ -19,19 +19,20 @@ def game_over():
     canv.itemconfig(bgnd, fill='#ffa0a0', outline='#ffa0a0')
     bird.col = '#670003'
 
-    messg="Press q to exit, r to restart"
+    messg = "Press q to exit, r to restart"
 
-    canv.create_rectangle(
-        0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
-    )
+    # canv.create_rectangle(
+    #     0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
+    # )
+    #
+    # canv.create_text(
+    #     text_size, Height + text_size,
+    #     fill="black", text=messg, font=str(text_size), anchor=NW
+    # )
+    bottom_bar(messg)
 
-    canv.create_text(
-        text_size * (1 + len(messg) / 2), Height + 1.5 * text_size,
-        fill="black", text=messg, font=str(text_size)
-    )
-
-    root.bind("q",die)
-    root.bind("r",restart)
+    root.bind("q", die)
+    root.bind("r", restart)
 
 def die(Event):
     if Event:
@@ -40,7 +41,7 @@ def die(Event):
 def restart(Event):
     if Event:
         pass
-        
+
 
 def up(event):
     if game_is_running:
@@ -75,14 +76,38 @@ def run_level(period):
 def display_level(n):
     messg = 'LEVEL: ' + str(n)
 
-    levelbar = canv.create_rectangle(
-        0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
-    )
+    # levelbar = canv.create_rectangle(
+    #     0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
+    # )
+    #
+    # levelabel = canv.create_text(
+    #     text_size, Height + text_size,
+    #     fill="black", text=messg, font=str(text_size), anchor=NW
+    # )
 
-    levelabel = canv.create_text(
-        text_size * (1 + len(messg) / 2), Height + 1.5 * text_size,
-        fill="black", text=messg, font=str(text_size)
-    )
+    bottom_bar(messg)
+
+
+bckg_bar = None
+text_bar = None
+def bottom_bar(messg):
+    global bckg_bar, text_bar
+
+    if bckg_bar is None:
+        bckg_bar = canv.create_rectangle(
+            0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
+        )
+
+    if text_bar is None:
+        text_bar = canv.create_text(
+            text_size, Height + 3 * text_size // 2,
+            fill="black", text=messg, font=str(text_size), anchor=W
+        )
+    else:
+        canv.itemconfig(text_bar, text=messg)
+
+
+
 
 def show_window():
     win_id = window.Window(
@@ -105,7 +130,7 @@ def main():
     text_size = 9
 
     canv = Canvas(root, width=Width, height=Height + 3 * text_size, bg='white')
-    canv.pack(fill=BOTH,expand=1)
+    canv.pack(fill=BOTH, expand=1)
 
     fps = 1 / 60
     game_is_running = True
