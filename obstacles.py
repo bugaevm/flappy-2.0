@@ -107,9 +107,9 @@ class Obstacle:
 
 
         if bird.x < self.x and bird.x + bird.size / 2 >= self.x:
-            move_obstacles(max(1, (bird.x + bird.size / 2 - self.x) / 3))
+            move_obstacles(max(1, (bird.x + bird.size / 2 - self.x) / 1.5))
         if bird.x > self.x + self.size and bird.x - bird.size / 2 <= self.x + self.size:
-            move_obstacles(min(-1, (bird.x - bird.size / 2 <= self.x + self.size) / 3))
+            move_obstacles(min(-1, (bird.x - bird.size / 2 - self.x - self.size) / 1.5))
 
         # if bird_bottom < bottom:
         #     return 0

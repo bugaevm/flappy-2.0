@@ -17,6 +17,8 @@ class Window:
         self.fps = fps
         self.color = '#77e1ef'
 
+        self.id = 'window'
+
         self.update()
         self.draw()
 

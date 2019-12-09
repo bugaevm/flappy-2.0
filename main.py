@@ -74,7 +74,7 @@ def run_level(period):
         root.after(int(1000 * flag), run_level, flag)
 
 def display_level(n):
-    messg = 'LEVEL: ' + str(n)
+    messg = 'Level ' + str(n)
 
     # levelbar = canv.create_rectangle(
     #     0, Height, Width, Height + 3 * text_size, fill="#afafaf", outline="#afafaf"
