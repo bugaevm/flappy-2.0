@@ -9,7 +9,7 @@ class Hole:
 
 class Level:
     def __init__(self, canvas, root, fps, bird, Width, Height):
-        self.number = 3
+        self.number = 4
 
         self.canvas = canvas
         self.root = root
@@ -21,17 +21,16 @@ class Level:
         self.dt = 1
         bird.dt = self.dt
 
-        self.obst_number = 40
+        self.obst_number = 35
 
         self.game_is_running = True
 
-        self.time = 0
-        self.timer()
-
     def obstacle_v(self, obstacle):
-        if self.game_is_running:
+        if obstacle.id == 'window':
             return -3
-        return 0
+
+        obstacle.hor_phi += obstacle.hor_w * self.dt
+        return -3 * self.game_is_running + 2 * math.cos(obstacle.hor_phi)
 
     def obstacle_size(self, obstacle):
         return 60
@@ -40,22 +39,14 @@ class Level:
         return '#777777'
 
     def update_hole(self, obstacle):
-        if self.time <= 10:
-            obstacle.p += obstacle.step / 10
+        obstacle.p += obstacle.w * self.dt
+        centre = self.Height // 2
+        ampl = centre - self.bird.size // 2 - obstacle.hole_size // 2
 
-            top = self.bird.size + obstacle.hole_size // 2
-            bottom = self.Height - self.bird.size - obstacle.hole_size // 2
+        t = centre + ampl * math.sin(obstacle.p)
 
-            if obstacle.p > bottom:
-                obstacle.p = 2 * bottom - obstacle.p
-                obstacle.step *= -1
-
-            if obstacle.p < top:
-                obstacle.p = 2 * top - obstacle.p
-                obstacle.step *= -1
-
-        p = obstacle.p
-        obstacle.hole = Hole(p - obstacle.hole_size / 2, p + obstacle.hole_size / 2)
+        # if obstacle.hole is None:
+        obstacle.hole = Hole(t - obstacle.hole_size / 2, t + obstacle.hole_size / 2)
 
     def next_obstacle(self):
         obst = obstacles.Obstacle(
@@ -65,12 +56,18 @@ class Level:
         obst.num = self.obst_number
         obst.hole_size = self.bird.size * 10
 
+        obst.w = (
+            (min(34 - obst.num, 16) - 1) / 40
+        ) ** 4 * (-1) ** random.choice(range(2))
 
         obst.p = random.choice(range(
-            self.bird.size + obst.hole_size // 2,
-            self.Height - self.bird.size - obst.hole_size // 2
-        ))
-        obst.step = random.choice((-1, 1)) * 3 * (40 - obst.num)
+            -self.Height, self.Height
+        )) / self.Height * math.pi
+
+        obst.hor_phi = math.pi * random.choice(range(10)) / 10
+        obst.hor_w = 0.05 + 0.25 * (35 - obst.num) / 35
+
+        obst.id = 'obstacle'
 
 
 
@@ -84,12 +81,6 @@ class Level:
 
     def game_stoped(self):
         self.game_is_running = False
-
-    def timer(self):
-        self.time += 1
-        self.time %= 100
-
-        self.root.after(10, self.timer)
 
 #     def run(self):
 #         global flag
