@@ -10,7 +10,7 @@ class Bird:
         self.dt = 1
 
         self.col = '#e528b8'
-        self.objects = None
+        self.object = None
 
         self.canvas = canvas
         self.root = root
@@ -20,23 +20,45 @@ class Bird:
         self.h = max_h
         self.interrupting = interrupting
 
+        self.living = True
+
         self.draw()
         self.move()
 
 
     def draw(self):
-        if self.objects is not None:
-            self.canvas.delete(self.objects[0])
+        if not self.living:
+            return 0
 
         r = self.size / 2
-        self.objects = [self.canvas.create_oval(
-            self.x - r, self.y - r, self.x + r, self.y + r,
-            fill=self.col, outline = self.col
-        )]
+
+        if self.object is None:
+            self.object = self.canvas.create_oval(
+                self.x - r, self.y - r, self.x + r, self.y + r,
+                fill=self.col, outline = self.col
+            )
+
+        else:
+            self.canvas.coords(self.object,
+                self.x - r, self.y - r, self.x + r, self.y + r
+            )
+
+            self.canvas.itemconfig(self.object,
+                fill=self.col, outline = self.col
+            )
+
+        # r = self.size / 2
+        # self.objects = [self.canvas.create_oval(
+        #     self.x - r, self.y - r, self.x + r, self.y + r,
+        #     fill=self.col, outline = self.col
+        # )]
 
         self.root.after(int(1000 * self.fps), self.draw)
 
     def move(self):
+        if not self.living:
+            return 0
+            
         dt = self.dt
 
         if self.y - self.size / 2 > 0 or self.v > 0:
@@ -52,6 +74,9 @@ class Bird:
         if self.y >= self.h - self.size / 2:
             self.y = self.h - self.size / 2
             self.interrupting()
+
+    def kill(self):
+        self.living = False
 
 
 if __name__ == '__main__':

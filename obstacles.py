@@ -29,6 +29,9 @@ class Obstacle:
         root.after(int(1000 * self.fps), self.draw)
 
     def draw(self):
+        if self.condition == 'deleted':
+            return 0
+
         for item in self.objects:
             self.canvas.delete(item)
 
@@ -49,6 +52,9 @@ class Obstacle:
 
 
     def update(self):
+        if self.condition == 'deleted':
+            return 0
+
         self.x += self.level.obstacle_v(self) * self.level.dt
         self.size = self.level.obstacle_size(self)
 
@@ -126,6 +132,7 @@ class Obstacle:
 
         for item in self.objects:
             self.canvas.delete(item)
+            self.condition = 'deleted'
         obstacles_set -= {self}
 
 

@@ -1,6 +1,7 @@
 import random
 import obstacles, window
 
+checkpoint = False
 
 class Hole:
     def __init__(self, top, bottom):
@@ -65,25 +66,7 @@ class Level:
     def game_stoped(self):
         self.game_is_running = False
 
-#     def run(self):
-#         global flag
-#
-#         new_obst_time()
-#
-#         while True:
-#             if flag:
-#                 obstacles.Obstacle(
-#                     self.canvas, self.root, self.fps, self.bird, self,
-#                     self.Width, self.Height
-#                 )
-#                 print('obst')
-#
-#                 flag = False
-#                 self.root.after(1500, new_obst_time)
-#
-# flag = False
-# def new_obst_time():
-#     global flag
-#
-#     flag = True
-#     print(flag)
+    def delete(self):
+        obst_set = set(obstacles.obstacles_set)
+        for obst in obst_set:
+            obst.delete()

@@ -7,4 +7,4 @@ def html2rgb(html):
     )
 
 def grad(colorA, colorB, alpha):
-    return tuple(colorA[i] * (1 - alpha) + colorB[i] * alpha for i in range(3))
+    return tuple(int(colorA[i] * (1 - alpha) + colorB[i] * alpha + 0.5) for i in range(3))
