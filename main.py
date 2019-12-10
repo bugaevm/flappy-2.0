@@ -139,13 +139,24 @@ def main():
 
     fps = 1 / 60
 
-    # new_game(3)
+
     start_menu()
 
     root.mainloop()
 
-def start_menu():
+def start_menu(sel_lev=None):
     global unlocked
+
+    if sel_lev is not None:
+        global checkpoint_number
+
+        unlocked = 0
+        checkpoint_number = 0
+        new_game(sel_lev)
+
+        print('Testing mode')
+        return 0
+
 
     def onclick(event):  # yeah it's function in finction
         global checkpoint_number
