@@ -19,6 +19,8 @@ class Window:
 
         self.id = 'window'
 
+        self.alive = True
+
         self.update()
         self.draw()
 
@@ -39,7 +41,8 @@ class Window:
 
         self.objects = {rect1, rect2}
 
-        self.root.after(int(1000 * self.fps), self.draw)
+        if self.alive:
+            self.root.after(int(1000 * self.fps), self.draw)
 
 
     def update(self):
@@ -57,7 +60,7 @@ class Window:
 
         self.hole_bottom = self.bottom - self.hole_top
 
-        if self.x >= -2 * self.size:
+        if self.x >= -2 * self.size and self.alive:
             self.root.after(int(1000 * self.fps), self.update)
         else:
             self.delete()
@@ -66,3 +69,5 @@ class Window:
     def delete(self):
         for item in self.objects:
             self.canvas.delete(item)
+
+        self.alive = False

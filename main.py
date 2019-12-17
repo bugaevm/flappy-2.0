@@ -42,7 +42,15 @@ def restart(Event):
         level.delete()
         bird.kill()
 
+
         canv.delete('ALL')
+
+        try:
+            win_id.delete()
+        except NameError:
+            pass
+        else:
+            pass
 
         bckg_bar = None
         text_bar = None
@@ -115,6 +123,8 @@ def bottom_bar(messg):
 
 
 def show_window():
+    global win_id
+
     win_id = window.Window(
         canv, root, fps, level,
         Width, Height
