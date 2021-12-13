@@ -1,3 +1,5 @@
+from colors import *
+
 obstacles_set = set()
 
 class Obstacle:
@@ -61,7 +63,14 @@ class Obstacle:
         if self.condition == 'passed':
             self.color = '#1ad747'
         elif self.condition == 'bumped':
-            self.color = '#b30b02'
+            bird = self.bird
+            bumped_color = '#b30b02'
+
+            if bird.living:
+                alpha = min(1, max(0, 3 * (bird.x - self.x) / self.size - 1)) / 2
+                self.color = rgb2html(*grad(html2rgb(bumped_color), (256, 256, 256), alpha))
+            else:
+                self.color = bumped_color
         else:
             self.color = self.level.obstacle_color(self)
 
@@ -78,6 +87,9 @@ class Obstacle:
         bird = self.bird
         hole = self.hole
 
+        if self.condition == 'bumped' and bird.living:
+            return 0
+
         if (bird.x - bird.size / 2 > self.x + self.size
         and self.condition != 'bumped'):
             self.condition = 'passed'
@@ -88,7 +100,7 @@ class Obstacle:
             return 0
 
         self.condition = 'bumped'
-        bird.interrupting()
+        bird.hit()
 
         self.check_falling_on_obstacle()
 

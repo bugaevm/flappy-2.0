@@ -17,7 +17,8 @@ def game_over():
     level.game_stoped()
 
     canv.itemconfig(bgnd, fill='#ffa0a0', outline='#ffa0a0')
-    bird.col = '#670003'
+    # bird.col = '#670003'
+    # bird.col = bird.col1
 
 
     if checkpoint_number > unlocked:
@@ -239,7 +240,7 @@ def new_game(level_num):
     game_is_running = True
     bgnd = canv.create_rectangle(0, 0, Width, Height, fill='white', outline='white')
 
-    bird = Bird(canv, root, fps, Height, game_over)
+    bird = Bird(canv, bgnd, root, fps, Height, game_over)
 
     #checkpoint_number = 0
     next_level(level_num)

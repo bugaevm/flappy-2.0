@@ -1,5 +1,21 @@
+from colors import *
+
+def hit_effect(canv, bgnd, root, fps, par):
+    a = 1 / fps / 10
+
+    if par > a:
+        col = '#ffffff'
+        canv.itemconfig(bgnd, fill=col, outline=col)
+        return 0
+
+    alpha = min(1, par * (a - par) / (a ** 2 / 4))
+    col = rgb2html(*grad((255, 255, 255), html2rgb('#ffa0a0'), alpha))
+    canv.itemconfig(bgnd, fill=col, outline=col)
+
+    root.after(int(1000 * fps), hit_effect, canv, bgnd, root, fps, par + 1)
+
 class Bird:
-    def __init__(self, canvas, root, fps, max_h, interrupting, x=None, y=None):
+    def __init__(self, canvas, background, root, fps, max_h, interrupting, x=None, y=None):
         self.size = 20
         self.x = (self.size * 4 if x is None else x)
         #self.y = (Height - self.size) // 2
@@ -9,10 +25,15 @@ class Bird:
         self.g = 0.25
         self.dt = 1
 
-        self.col = '#e528b8'
+        # self.col = '#e528b8'
+        self.col0 = '#0087af'
+        # self.col0 = '#e528b8'
+        self.col1 = '#5f0000'
+        self.col = self.col0
         self.object = None
 
         self.canvas = canvas
+        self.background = background
         self.root = root
 
         self.fps = fps
@@ -20,15 +41,15 @@ class Bird:
         self.h = max_h
         self.interrupting = interrupting
 
-        self.living = True
+        self.living = 4
 
         self.draw()
         self.move()
 
 
     def draw(self):
-        if not self.living:
-            return 0
+        # if not self.living:
+        #     return 0
 
         r = self.size / 2
 
@@ -38,7 +59,11 @@ class Bird:
                 fill=self.col, outline = self.col
             )
 
+            self.canvas.tag_raise(self.object)
+
         else:
+            self.canvas.tag_raise(self.object)
+
             self.canvas.coords(self.object,
                 self.x - r, self.y - r, self.x + r, self.y + r
             )
@@ -56,9 +81,9 @@ class Bird:
         self.root.after(int(1000 * self.fps), self.draw)
 
     def move(self):
-        if not self.living:
-            return 0
-            
+        # if not self.living:
+        #     return 0
+
         dt = self.dt
 
         if self.y - self.size / 2 > 0 or self.v > 0:
@@ -73,10 +98,30 @@ class Bird:
     def check_falling(self):
         if self.y >= self.h - self.size / 2:
             self.y = self.h - self.size / 2
+
+            if self.living:
+                self.v = self.v0
+
+            self.hit()
+
+    def hit(self):
+        if not self.living:
+            return 0
+
+        self.living -= 1
+        if self.living:
+            hit_effect(self.canvas, self.background, self.root, self.fps, 0)
+
+        c0 = html2rgb(self.col0)
+        c1 = html2rgb(self.col1)
+        self.col = rgb2html(*grad(c0, c1, 1 - self.living / 4))
+
+        if not self.living:
+            self.col = self.col1
             self.interrupting()
 
     def kill(self):
-        self.living = False
+        self.living = 0
 
 
 if __name__ == '__main__':
