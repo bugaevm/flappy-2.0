@@ -107,7 +107,7 @@ class Bird:
                 self.v = self.v0
             else:
                 self.v *= -0.5
-                self.v = max(self.v, self.v0)
+                self.v = max(self.v, self.v0 * 0.5)
 
             self.hit()
 
