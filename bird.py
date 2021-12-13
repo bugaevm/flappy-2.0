@@ -103,8 +103,11 @@ class Bird:
         if self.y >= self.h - self.size / 2:
             self.y = self.h - self.size / 2
 
-            if self.living:
+            if self.living > 1:
                 self.v = self.v0
+            else:
+                self.v *= -0.5
+                self.v = max(self.v, self.v0)
 
             self.hit()
 

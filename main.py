@@ -12,7 +12,7 @@ def game_over():
         return 0
 
     game_is_running = False
-    bird.v = 0
+    # bird.v = 0
 
     level.game_stoped()
 
