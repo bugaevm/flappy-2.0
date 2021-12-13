@@ -1,14 +1,16 @@
+from math import e
 from colors import *
 
 def hit_effect(canv, bgnd, root, fps, par):
-    a = 1 / fps / 10
+    a = 1 / fps / 7.5
 
     if par > a:
         col = '#ffffff'
         canv.itemconfig(bgnd, fill=col, outline=col)
         return 0
 
-    alpha = min(1, par * (a - par) / (a ** 2 / 4))
+    # alpha = min(1, par * (a - par) / (a ** 2 / 4))
+    alpha = e ** (-(par - a / 2) ** 2 / 4)
     col = rgb2html(*grad((255, 255, 255), html2rgb('#ffa0a0'), alpha))
     canv.itemconfig(bgnd, fill=col, outline=col)
 

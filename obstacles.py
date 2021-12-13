@@ -67,10 +67,11 @@ class Obstacle:
             bumped_color = '#b30b02'
 
             if bird.living:
-                alpha = min(1, max(0, 3 * (bird.x - self.x) / self.size - 1)) / 2
+                alpha = min(1, max(0, 4 * (bird.x - self.x) / self.size - 4)) * 0.65
                 self.color = rgb2html(*grad(html2rgb(bumped_color), (256, 256, 256), alpha))
             else:
                 self.color = bumped_color
+
         else:
             self.color = self.level.obstacle_color(self)
 
