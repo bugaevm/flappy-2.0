@@ -1,5 +1,13 @@
 import math
 
+def smooth_tr(x):
+    if x < 0:
+        return 0
+    if x > 1:
+        return 1
+
+    return (3 - 2 * x) * x ** 2
+
 class Window:
     def __init__(self, canvas, root, fps, level, Width, Height):
         self.level = level
@@ -51,12 +59,17 @@ class Window:
 
         self.x += self.level.obstacle_v(self) * self.level.dt
 
-        if self.x > Width / 2:
-            self.hole_top = Height // 2 - 1
-        else:
-            self.hole_top = (Height // 2 - 1) * (1 - math.cos(math.pi * self.x / Width))
-            self.hole_top = max(self.hole_top, 20)
+        # if self.x > Width / 2:
+        #     self.hole_top = Height // 2 - 1
+        # else:
+        #     self.hole_top = (Height // 2 - 1) * (1 - math.cos(math.pi * self.x / Width))
+        #     self.hole_top = max(self.hole_top, 20)
 
+        init_pos = Height / 2 - 1
+        finit_pos = 20
+        parametr = -self.x / (Width / 4) + 3
+
+        self.hole_top = init_pos + smooth_tr(parametr) * (finit_pos - init_pos)
 
         self.hole_bottom = self.bottom - self.hole_top
 
