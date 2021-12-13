@@ -28,10 +28,12 @@ class Bird:
         self.dt = 1
 
         # self.col = '#e528b8'
-        self.col0 = '#0087af'
+        # self.col0 = '#0087af'
         # self.col0 = '#e528b8'
-        self.col1 = '#5f0000'
-        self.col = self.col0
+        # self.col1 = '#5f0000'
+
+        self.colors = ['#5f0000', '#e528b8', '#a028e5', '#282be5', '#0087af']
+        self.col = self.colors[-1]
         self.object = None
 
         self.canvas = canvas
@@ -114,12 +116,14 @@ class Bird:
         if self.living:
             hit_effect(self.canvas, self.background, self.root, self.fps, 0)
 
-        c0 = html2rgb(self.col0)
-        c1 = html2rgb(self.col1)
-        self.col = rgb2html(*grad(c0, c1, 1 - self.living / 4))
+        # c0 = html2rgb(self.col0)
+        # c1 = html2rgb(self.col1)
+        # self.col = rgb2html(*grad(c0, c1, 1 - self.living / 4))
+
+        self.col = self.colors[self.living]
 
         if not self.living:
-            self.col = self.col1
+            self.col = self.colors[0]
             self.interrupting()
 
     def kill(self):
