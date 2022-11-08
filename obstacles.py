@@ -66,11 +66,13 @@ class Obstacle:
             bird = self.bird
             bumped_color = '#b30b02'
 
-            if bird.living:
-                alpha = min(1, max(0, 4 * (bird.x - self.x) / self.size - 4)) * 0.5
-                self.color = rgb2html(*grad(html2rgb(bumped_color), (256, 256, 256), alpha))
-            else:
-                self.color = bumped_color
+            # if bird.living:
+            #     alpha = min(1, max(0, 4 * (self.bumped_x - self.x) / self.size - 4)) * 0.5
+            #     self.color = rgb2html(*grad(html2rgb(bumped_color), (256, 256, 256), alpha))
+            # else:
+            #     self.color = bumped_color
+
+            self.color = bumped_color
 
         else:
             self.color = self.level.obstacle_color(self)
@@ -101,6 +103,7 @@ class Obstacle:
             return 0
 
         self.condition = 'bumped'
+        self.bumped_x = self.x
         bird.hit()
 
         self.check_falling_on_obstacle()

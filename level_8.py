@@ -39,7 +39,7 @@ class Level:
         if obstacle.num > 10 or obstacle.x > self.Width // 2 or not self.game_is_running:
             return '#777777'
 
-        left = self.bird.x + (self.Width // 2 - self.bird.x) * (1 - obstacle.num / 30)
+        left = self.bird.x + (self.Width // 2 - self.bird.x) * (1 - obstacle.num / 31)
         alpha = (self.Width // 2 - obstacle.x) / (self.Width // 2 - left)
 
         if alpha >= 1:
